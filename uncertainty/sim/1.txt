@@ -1,0 +1,6 @@
+Which rug did I put next to the kitchen sink?
+A) There is no rug
+B) White one
+C) Gray one
+D) Green one
+Chosen answer at step 3: A

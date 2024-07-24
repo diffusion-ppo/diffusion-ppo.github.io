@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-FSSR6942QL"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-FSSR6942QL');
+    </script>
+
+    <title>Explore until Confident: Efficient Exploration for Embodied Question Answering</title>
+    <link rel="icon" type="image/png" href="img/favicon_2.png">
+
+    <meta name="description" content="Explore until Confident: Efficient Exploration for Embodied Question Answering">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!--     <link rel="apple-touch-icon" href="apple-touch-icon.png"> -->
+  <!-- <link rel="icon" type="image/png" href="img/seal_icon.png"> -->
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/default.min.css">
+    <link rel="stylesheet" href="css/app.css">
+    <!-- <link rel="stylesheet" href="css/bulma.min.css"> -->
+    <!-- <link rel="stylesheet" href="css/bulma-carousel.min.css"> -->
+    <!-- <link rel="stylesheet" href="css/bulma-slider.min.css"> -->
+    <link rel="stylesheet" href="css/bulma-myscope.css">
+
+    <!-- https://github.com/jgthms/bulma/issues/302#issuecomment-441890938 Follow this to use bulma style here without conflicts with app.css. I put bulma.min.css, bulma-carousel.min.css, and bulma-slider.min.css into a single file before applying less. -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.8.0/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.3/clipboard.min.js"></script>
+    <script src="js/bulma-carousel.min.js"></script>
+    <script src="js/bulma-slider.min.js"></script>
+    <script src="js/index.js"></script>
+    <script src="js/app.js"></script>
+
+    <style>
+        .nav-pills {
+          position: relative;
+          display: inline;
+        }
+        .imtip {
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="main">
+        <div class="row mt-4">
+            <h2 class="col-md-12 text-center">
+                <b><font size="+5">Explore until Confident</font></b>: </br> Efficient Exploration for Embodied Question Answering </br>
+            </h2>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <ul class="list-inline">
+                <!-- <br> -->
+                <li><a href="//allenzren.github.io">Allen Z. Ren</a></li>
+                <li><a href="//jadenvc.github.io">Jaden Clark</a></li>
+                <li><a href="//www.anushridixit.com">Anushri Dixit</a></li>
+                <li><a href="//mashaitkina.weebly.com">Masha Itkina</a></li>
+                <li><a href="//irom-lab.princeton.edu/majumdar">Anirudha Majumdar</a></li>
+                <li><a href="//dorsa.fyi">Dorsa Sadigh</a></li>
+                <!-- <br> -->
+                <br>
+                    <a href="https://www.princeton.edu/">
+                        <image src="img/PU1line.svg" height="40px"> 
+                    </a>
+                    &nbsp&nbsp&nbsp
+                    <a href="https://www.stanford.edu/">
+                        <image src="img/stanford.png" height="65px"> 
+                    </a>
+                    &nbsp&nbsp&nbsp
+                    <a href="https://www.tri.global/">
+                        <image src="img/toyota-research-institute.png" height="50px"> 
+                    </a>
+                </ul>
+            </div>
+            <!-- <div class="col-md-12 text-center">
+                <h4>CoRL 2023, Best Student Paper</h4>
+            </div> -->
+        </div>
+        
+        <div class="row justify-content-md-center">
+            <div class="col-md-2 text-center">
+                <a href="https://arxiv.org/abs/2403.15941">
+                    <img src="img/paper_small.png" height="45px">
+                    <h4><strong>Paper</strong></h4>
+                </a>
+            </div>
+            <div class="col-md-2 text-center">
+                <a href="https://youtu.be/Dn8WjF9gIiQ">
+                    <img src="img/youtube_icon.png" height="45px">
+                    <h4><strong>Video</strong></h4>
+                </a>
+            </div>
+            <div class="col-md-2 text-center">
+                <a href="https://github.com/Stanford-ILIAD/explore-eqa">
+                    <img src="img/github.png" height="45px">
+                    <h4><strong>Code</strong></h4>
+                </a>
+            </div>
+            <div class="col-md-2 text-center">
+                <a href="https://github.com/Stanford-ILIAD/explore-eqa/tree/master/data">
+                    <img src="img/dataset.png" height="45px">
+                    <h4><strong>Dataset</strong></h4>
+                </a>
+            </div>
+        </div>
+
+        <!-- <style>
+            .video-container {
+                position: relative;
+                padding-bottom: 56.25%; /* 16:9 aspect ratio */
+                height: 0;
+                overflow: hidden;
+            }
+            .video-container video {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+            .no-gutters {
+                margin-right: 0;
+                margin-left: 0;
+            }
+        </style>
+        <div class="row mt-4 no-gutters">
+            <div class="col-md-6 mb-3">
+                <div class="video-container">
+                    <video id="v0" preload="metadata" playsinline muted loop autoplay>
+                        <source src="videos/sim-hb.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <div class="video-container">
+                    <video id="v1" preload="metadata" playsinline muted loop autoplay>
+                        <source src="videos/real-hb.mp4" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </div> -->
+
+        <div class="row justify-content-md-center">
+            <div class="col-md-12 col-lg-10">
+                <br>
+                <h5 class="text-justify text-center">
+                    <!-- <strong>We combine VLM's commonsense reasoning and rigorous uncertainty quantification to enable agents to efficiently explore relevant regions, and then stop to answer questions about unknown 3D environments with calibrated confidence.</strong> -->
+                    Combine VLM semantic reasoning and rigorous uncertainty quantification to enable agents to efficiently explore relevant regions of unknown 3D environments, and stop to answer questions about them with calibrated confidence.
+                </h5>
+                <br>
+            </div>
+        </div>
+
+        <div class='myscope'>
+          <section class="hero is-light is-small">
+            <div class="hero-body">
+              <div class="container">
+                <div id="results-carousel" class="carousel results-carousel">
+
+                  <div class="item-7">
+                    <video poster="" id="7" autoplay controls muted loop playsinline height="100%">
+                        <source src="videos/sim-7-v2.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-overlay">
+                        <p>Is my kid on the treadmill?<br>
+                            A) Yes<br>
+                            B) No
+                        </p>
+                    </div>
+                  </div>
+                  <div class="item-4">
+                    <video poster="" id="4" autoplay controls muted loop playsinline height="100%">
+                        <source src="videos/sim-4-v2.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-overlay">
+                        <p>Is the lamp next to the sofa turned on?<br>
+                            A) Yes<br>
+                            B) No
+                        </p>
+                    </div>
+                  </div>
+                  <div class="item-2">
+                    <video poster="" id="2" autoplay controls muted loop playsinline height="100%">
+                        <source src="videos/sim-2-v2.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-overlay">
+                        <p>How many bedside tables are there in the bedroom with the white bedding?<br>
+                            A) Three<br>
+                            B) None<br>
+                            C) One<br>
+                            D) Two
+                        </p>
+                    </div>
+                  </div>
+                  <div class="item-1">
+                    <video poster="" id="1" autoplay controls muted loop playsinline height="100%">
+                        <source src="videos/sim-1-v2.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-overlay">
+                        <p>Which rug did I put next to the kitchen sink?<br>
+                            A) There is no rug<br>
+                            B) White one<br>
+                            C) Gray one<br>
+                            D) Green one
+                        </p>
+                    </div>
+                  </div>
+                  <div class="item-3">
+                    <video poster="" id="3" autoplay controls muted loop playsinline height="100%">
+                        <source src="videos/sim-3-v2.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-overlay">
+                        <p>I am going to shower now. I need to grab some towels.<br>
+                            A) There are already some in the bathroom<br>
+                            B) There are none in the bathroom<br>
+                            C) There are some in the bedroom<br>
+                            D) There is only one in the bathroom
+                        </p>
+                    </div>
+                  </div>
+                  <div class="item-5">
+                    <video poster="" id="5" autoplay controls muted loop playsinline height="100%">
+                        <source src="videos/sim-5-v2.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-overlay">
+                        <p>I remember leaving some books in one of the rooms, on wooden shelves.<br>
+                            A) In the room with orange wall<br>
+                            B) In the room with white wall<br>
+                            C) In the room with green wall
+                        </p>
+                    </div>
+                  </div>
+                  <div class="item-6">
+                    <video poster="" id="6" autoplay controls muted loop playsinline height="100%">
+                        <source src="videos/sim-6-v2.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-overlay">
+                        <p>Where did I leave the striped towel?<br>
+                            A) On the living room floor<br>
+                            B) In the bathroom<br>
+                            C) By the kitchen sink<br>
+                            D) On the dining table
+                        </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+        <br>
+        <div class="row justify-content-md-center">
+            <div class="col-md-12 col-lg-10">
+                <h5 class="text-justify text-center">
+                    Simulated scenarios in Habitat-Sim
+                </h5>
+            </div>
+        </div>
+        <br>
+        <div class='myscope'>
+            <section class="hero is-light is-small">
+                <div class="hero-body">
+                    <div class="container">
+                        <div id="results-carousel" class="carousel results-carousel">
+                            <div class="item-8">
+                                <video poster="" id="8" autoplay controls muted loop playsinline height="100%">
+                                    <source src="videos/real-1-v2.mp4" type="video/mp4">
+                                </video>
+                                <div class="video-overlay">
+                                    <p>What kind of stools are under the white board?<br>
+                                        A) White ones<br>
+                                        B) Dark blue ones<br>
+                                        C) Black ones<br>
+                                        D) Lime green ones
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="item-9">
+                                <video poster="" id="9" autoplay controls muted loop playsinline height="100%">
+                                    <source src="videos/real-2-v2.mp4" type="video/mp4">
+                                </video>
+                                <div class="video-overlay">
+                                    <p>Is there something here that I can cook my cookie dough in?<br>
+                                        A) Yes<br>
+                                        B) No
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="item-10">
+                                <video poster="" id="10" autoplay controls muted loop playsinline height="100%">
+                                    <source src="videos/real-3-v2.mp4" type="video/mp4">
+                                </video>
+                                <div class="video-overlay">
+                                    <p>Is the dishwasher in the kitchen open or closed?<br>
+                                        A) Closed<br>
+                                        B) Open
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="item-11">
+                                <video poster="" id="11" autoplay controls muted loop playsinline height="100%">
+                                    <source src="videos/real-1-v2.mp4" type="video/mp4">
+                                </video>
+                                <div class="video-overlay">
+                                    <p>What kind of stools are under the white board?<br>
+                                        A) White ones<br>
+                                        B) Dark blue ones<br>
+                                        C) Black ones<br>
+                                        D) Lime green ones
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <br>
+        <div class="row justify-content-md-center">
+            <div class="col-md-12 col-lg-10">
+                <h5 class="text-justify text-center">
+                    Real-world scenarios with a Fetch mobile robot
+                </h5>
+            </div>
+        </div>
+
+        <div class="row justify-content-md-center">
+            <div class="col-md-12 col-lg-10">
+                <h3 class="mt-4 mb-2">
+                    Abstract
+                </h3>
+                <p class="text-justify">
+                    We consider the problem of Embodied Question Answering (EQA), which refers to settings where an embodied agent such as a robot needs to actively explore an environment to gather information until it is confident about the answer to a question. In this work, we leverage the strong semantic reasoning capabilities of large vision-language models (VLMs) to efficiently explore and answer such questions. However, there are two main challenges when using VLMs in EQA: they do not have an internal memory for mapping the scene to be able to plan how to explore over time, and their confidence can be miscalibrated and can cause the robot to prematurely stop exploration or over-explore. We propose a method that first builds a semantic map of the scene based on depth information and via visual prompting of a VLM — leveraging its vast knowledge of relevant regions of the scene for exploration. Next, we use conformal prediction to calibrate the VLM's question answering confidence, allowing the robot to know when to stop exploration — leading to a more calibrated and efficient exploration strategy. To test our framework in simulation, we also contribute a new EQA dataset with diverse, realistic human-robot scenarios and scenes built upon the Habitat-Matterport 3D Research Dataset (HM3D). Both simulated and real robot experiments show our proposed approach improves the performance and efficiency over baselines that do no leverage VLM for exploration or do not calibrate its confidence.
+                </p>
+                <!-- <p style="text-align:center;">
+                    <image src="img/trial.png" width="100%">
+                </p> -->
+            </div>
+        </div>
+
+        <div class="row justify-content-md-center">
+            <!-- <br> -->
+            <div class="col-md-6 text-center">
+                <iframe width="560" height="285" src="https://www.youtube.com/embed/Dn8WjF9gIiQ?si=h_rtIlTsF-WH3oMK" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <!-- <div class="col-md-6 text-center">
+                <blockquote class="twitter-tweet"><p lang="en" dir="ltr" width="250">LLMs can generate plans and write robot code 📝 but they can also make mistakes. How do we get LLMs to 𝘬𝘯𝘰𝘸 𝘸𝘩𝘦𝘯 𝘵𝘩𝘦𝘺 𝘥𝘰𝘯&#39;𝘵 𝘬𝘯𝘰𝘸 🤷 and ask for help?<br><br>Read more on how we can do this (with statistical guarantees) for LLMs on robots 👇<a href="https://t.co/D7mHGzNP3p">https://t.co/D7mHGzNP3p</a> <a href="https://t.co/M9lUqlZ5cB">pic.twitter.com/M9lUqlZ5cB</a></p>&mdash; Allen Z. Ren (@allenzren) <a href="https://twitter.com/allenzren/status/1677000811803443213?ref_src=twsrc%5Etfw">July 6, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            </div> -->
+        </div>
+
+        <!-- <div class="row justify-content-md-center">
+            <blockquote class="twitter-tweet"><p lang="en" dir="ltr">LLMs can generate plans and write robot code 📝 but they can also make mistakes. How do we get LLMs to 𝘬𝘯𝘰𝘸 𝘸𝘩𝘦𝘯 𝘵𝘩𝘦𝘺 𝘥𝘰𝘯&#39;𝘵 𝘬𝘯𝘰𝘸 🤷 and ask for help?<br><br>Read more on how we can do this (with statistical guarantees) for LLMs on robots 👇<a href="https://t.co/D7mHGzNP3p">https://t.co/D7mHGzNP3p</a> <a href="https://t.co/M9lUqlZ5cB">pic.twitter.com/M9lUqlZ5cB</a></p>&mdash; Allen Z. Ren (@allenzren) <a href="https://twitter.com/allenzren/status/1677000811803443213?ref_src=twsrc%5Etfw">July 6, 2023</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div> -->
+
+        <div class="row justify-content-md-center">
+            <div class="col-md-12 col-lg-10">
+                <br>
+                <h3>
+                    Embodied Question Answering (EQA)
+                </h3>
+                <p class="text-justify">
+                    In EQA tasks, the robot starts at a random location in a 3D scene, explores the space, and stops when it is confident about answering the question. This can be a challenging problem due to highly diverse scenes and lack of an a-priori map of the environment. Previous works rely on training dedicated exploration policies and question answering modules from scratch, which can be data-inefficient and only handle simple questions.
+                    <br><p style="text-align:center;">
+                        <image src="img/trial.png" width="60%">
+                    </p>
+                    We are interested in using pre-trained large <strong>vision-language models (VLMs)</strong> for EQA without additional training. VLMs have achieved impressive performance in answering complex questions about static 2D images that sometimes requires reasoning, and we find VLMs can also reason about semantically relevant regions to explore given the question and view. However, there are still two main challenges:<br>
+                    <strong>1) Limited Internal Memory of VLMs.</strong> EQA benefits from the robot tracking previously explored regions and also ones yet to be explored but relevant for answering the question. However, VLMs do not have an internal memory for mapping the scene and storing such semantic information;<br>
+                    <strong>2) Miscalibrated VLMs.</strong> VLMs are fine-tuned on pre-trained large language models (LLMs) as the language decoder, and LLMs are often miscalibrated - that is they can be over-confident or under-confident about the output. This makes it difficult to determine when the robot is confident enough about question answering in EQA and then stop exploration.
+            </div>
+            <br>
+        </div>
+
+        <div class="row justify-content-md-center">
+            <div class="col-md-12 col-lg-10">
+                <br>
+                <h3>
+                    How can we endow VLMs with the capability of efficient exploration for EQA?
+                </h3>
+                <p class="text-justify">
+                    Addressing the first challenge of limited internal memory, we propose building a map of the scene external to the VLM as the robot visits different locations. On top of it, we embed the VLM's knowledge about possible exploration directions into this <strong>semantic map</strong> to guide the robot's exploration. Such semantic information is obtained by <strong>visual prompting</strong>: annotating the free space in the current image view, prompting the VLM to choose among the unoccupied regions, and querying its prediction. The values are then stored in the semantic map.
+                <!-- <br><br><p style="text-align:center;">
+                    <image src="img/mcqa-cp.png" width="100%">
+                </p><br> -->
+                <div class="row mt-4">
+                    <div class="col-md-12 text-center">
+                        <video id="v0" width="70%" preload="metadata" playsinline muted loop autoplay>
+                            <source src="videos/visual-prompting-hb.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                We then leverage such semantic information with Frontier-Based Exploration (FBE). Frontiers are the locations between explored and unexplored regions, and we apply weighted sampling of the frontiers based on their semantic values on the map.
+                <!-- <br><br><p style="text-align:center;">
+                    <image src="img/semantic-map.png" width="60%">
+                </p> -->
+                <div class="row mt-4">
+                    <div class="col-md-12 text-center">
+                        <video id="v0" width="70%" preload="metadata" playsinline muted loop autoplay>
+                            <source src="videos/semantic.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                <!-- <br>
+                <div class="row mt-4">
+                    <div class="col-md-12 text-center">
+                        <video id="v0" width="100%" preload="metadata" playsinline muted loop autoplay>
+                            <source src="videos/knowno-cp-handbrake.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+                <br> -->
+                Addressing the second issue of miscalibration, we leverage <strong>multi-step conformal prediction</strong>, which allows the robot to maintain a set of possible answers (<strong>prediction set</strong>) over time, and stop when the set reduces to a single answer. Conformal prediction uses a moderately sized (e.g., ~300) set of scenarios for carefully selecting a confidence threshold above which answers are included in the prediction set. This procedure allows us to achieve <strong>calibrated confidence</strong>: with a user-specified probability, the prediction set is guaranteed to contain the correct answer for a new scenario (under the assumption that calibration and test scenarios are drawn from the same unknown distribution). CP minimizes the prediction set size, which helps the robot to stop as quickly as it can while satisfying calibrated confidence.
+                <div class="row mt-4">
+                    <div class="col-md-12 text-center">
+                        <video id="v0" width="70%" preload="metadata" playsinline muted loop autoplay>
+                            <source src="videos/cp-hb.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-md-center">
+            <div class="col-md-12 col-lg-10">
+                <br>
+                <h3>
+                    HM-EQA Dataset
+                </h3>
+                <p class="text-justify">
+                    While prior work has primarily considered synthetic scenes and simple questions such as “what is the color of the coffee table?” involving basic attributes of relatively large pieces of furniture, we are interested in applying our VLM-based framework in more realistic and diverse scenarios, where the question can be more open-ended and possibly require semantic reasoning. To this end, we propose <a href="//github.com/Stanford-ILIAD/explore-eqa/tree/master/data">HM-EQA</a>, a new EQA dataset with 500 questions based on 267 scenes from the <a href="//aihabitat.org/datasets/hm3d-semantics/">Habitat-Matterport 3D Research Dataset (HM3D)</a>. We consider five categories of questions:
+                    <br><p style="text-align:center;">
+                        <image src="img/question.png" width="60%">
+                    </p>
+                    <!-- <br>1) <strong>Identification</strong>: asking about identifying the type of an object, e.g., “Which tablecloth is on the dining table? A) Red B) White C) Black D) Gray”
+                    <br>2) <strong>Counting</strong>: asking about the number of objects, e.g., “My friends and I were playing pool last night. Did we leave any cues on the table? A) None B) One C) Two D) Three”
+                    <br>3) <strong>Existence</strong>: asking if an object is present at a location, e.g., “Did I leave my jacket on the bench near the front door? A) Yes B) No”
+                    <br>4) <strong>State</strong>: asking about the state of an object, e.g., “Is the air conditioning in the living room turned on? A) Yes B) No” or “Is the curtain in the master bedroom closed? A) Yes B) No”
+                    <br>5) <strong>Location</strong>: asking about the location of an object, e.g., “Where have I left the black suitcase? A) At the corner of the bedroom B) In the hallway C) In the storage room D) Next to TV in the living room” -->
+            </div>
+            <br>
+        </div>
+
+        <!-- <div class="row justify-content-md-center mt-4">
+            <div class="col-md-10 col-lg-8">
+                <h3>Experiment Videos</h3>
+                <div class="card mb-4 mt-4 text-dark bg-light">
+                    <h5 class="card-header">Simulated Scenarios in Habitat-Sim</h5>
+                    <div class="card-body">
+
+                        <p>Bottom left shows the semantic map.</p>
+                        <select class="form-select" size="7" aria-label="size 5 select example">
+                            <option value="sim_1">
+                                1) Which rug did I put next to the kitchen sink?
+                            </option>
+                            <option value="sim_2">
+                                2) How many bedside tables are there in the bedroom with the white bedding?
+                            </option>
+                            <option value="sim_3">
+                                3) I am going to shower now. I need to grab some towels.
+                            </option>
+                            <option value="sim_4">
+                                4) Is the lamp next to the sofa turned on?
+                            </option>
+                            <option value="sim_5">
+                                5) I remember leaving some books in one of the rooms, on wooden shelves.
+                            </option>
+                            <option value="sim_6">
+                                6) Where did I leave the striped towel?
+                            </option>
+                            <option value="sim_7">
+                                7) Is my kid on the treadmill?
+                            </option>
+                        </select>
+
+                        <div class="col-md-12 mb-2">
+                            <video id="vid_sim" width="100%" preload="metadata" playsinline controls>
+                                <source src="videos/sim-all-hb.mp4" type="video/mp4">
+                            </video>
+                        </div>
+
+                        <div class="row" id="content_sim_1">
+                            <div class="col-md-12" id="code_sim_1">
+                            </div>
+                        </div>
+                        <div class="row" id="content_sim_2" style="display:none">
+                            <div class="col-md-12" id="code_sim_2">
+                            </div>
+                        </div>
+                        <div class="row" id="content_sim_3" style="display:none">
+                            <div class="col-md-12" id="code_sim_3">
+                            </div>
+                        </div>
+                        <div class="row" id="content_sim_4" style="display:none">
+                            <div class="col-md-12" id="code_sim_4">
+                            </div>
+                        </div>
+                        <div class="row" id="content_sim_5" style="display:none">
+                            <div class="col-md-12" id="code_sim_5">
+                            </div>
+                        </div>
+                        <div class="row" id="content_sim_6" style="display:none">
+                            <div class="col-md-12" id="code_sim_6">
+                            </div>
+                        </div>
+                        <div class="row" id="content_sim_7" style="display:none">
+                            <div class="col-md-12" id="code_sim_7">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-4 mt-4 text-dark bg-light">
+                    <h5 class="card-header">Real Scenarios with Fetch Robot</h5>
+                    <div class="card-body">
+
+                        <p>Bottom left shows the robot camera view and the topdown map.</p>
+                        <select class="form-select" size="3" aria-label="size 5 select example">
+                            <option value="real_1">
+                                1) What kind of stools are under the white board?
+                            </option>
+                            <option value="real_2">
+                                2) Is there something here that I can cook my cookie dough in?
+                            </option>
+                            <option value="real_3">
+                                3) Is the dishwasher in the kitchen open or closed?
+                            </option>
+                        </select>
+
+                        <div class="col-md-12 mb-2">
+                            <video id="vid_real" width="100%" preload="metadata" playsinline controls>
+                                <source src="videos/real-all-hb.mp4" type="video/mp4">
+                            </video>
+                        </div>
+
+                        <div class="row" id="content_real_1">
+                            <div class="col-md-12" id="code_real_1">
+                            </div>
+                        </div>
+                        <div class="row" id="content_real_2" style="display:none">
+                            <div class="col-md-12" id="code_real_2">
+                            </div>
+                        </div>
+                        <div class="row" id="content_real_3" style="display:none">
+                            <div class="col-md-12" id="code_real_3">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div> -->
+        <div class="row justify-content-md-center">
+            <div class="col-md-12 col-lg-10">
+                <h3>
+                    Citation 
+                </h3>
+                <a href="https://arxiv.org/abs/2403.15941">[arxiv version]</a>
+                <div class="form-group col-md-12">
+                    <textarea id="bibtex" class="form-control" rows="6" readonly>
+@inproceedings{exploreeqa2024,
+    title={Explore until Confident: Efficient Exploration for Embodied Question Answering},
+    author={Ren, Allen Z. and Clark, Jaden and Dixit, Anushri and Itkina, Masha and Majumdar, Anirudha and Sadigh, Dorsa},
+    booktitle={arXiv preprint arXiv:2403.15941},
+    year={2024}
+}</textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center mt-4">
+            <div class="col-md-12 col-lg-10">
+                <h3>
+                    Acknowledgements
+                </h3>
+                <p class="text-justify">
+                    We thank Donovon Jackson, Derick Seale, and Tony Nguyen for contributing to the HM-EQA dataset. The authors were partially supported by the Toyota Research Institute (TRI), the NSF CAREER Award [#2044149], and the Office of Naval Research [N00014-23-1-2148]. This article solely reflects the opinions and conclusions of its authors and NSF, ONR, TRI or any other Toyota entity. The website template is from <a href="https://robot-help.github.io/">KnowNo</a> and <a href="https://nerfies.github.io/">Nerfies</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script>hljs.highlightAll();</script>
+</body>
+</html>

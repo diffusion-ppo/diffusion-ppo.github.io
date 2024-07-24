@@ -1,0 +1,6 @@
+How many bedside tables are there in the bedroom with the white bedding?
+A) Three
+B) None
+C) One
+D) Two
+Chosen answer at step 43: D
